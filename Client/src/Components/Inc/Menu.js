@@ -1,10 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { UserContext } from '../../App'
 
-const Menu = (props) => {
+import categoryApi from '../../Services/api/category.api'
 
-    const contextValue = useContext(UserContext)
-    const categories = contextValue.categories!=null && contextValue.categories
+const Menu = () => {
+    const {categories, setCategories} = useContext(UserContext)
+
+    useEffect(()=>{
+        categoryApi.getAll()
+          .then(res => res.status === 200 && setCategories(res.data))
+          .catch(err => {})        
+    })
     
     return (
         <React.Fragment>
@@ -40,8 +46,8 @@ const Menu = (props) => {
                                 <div className="bg-white py-2 collapse-inner rounded">
                                     {
                                         category.children.length>0 && 
-                                        category.children.map(category => 
-                                            <a className="collapse-item" href="buttons.html">{category.name}</a>    
+                                        category.children.map((category, idx) => 
+                                            <a className="collapse-item" href="buttons.html" key={`subcategory${idx}`}>{category.name}</a>    
                                         )
                                     }
                                 </div>

@@ -11,4 +11,12 @@ router.get('/authenticate', authMiddleware.isLogin, (_, res)=>{
     res.status(200).json({message: 'Authenticate'})
 })
 
+router.get('/logout', authMiddleware.logout, (_, res)=>{
+    res.status(200).send();
+})
+
+router.post('/forgot-password', authMiddleware.forgotPassword, (_, res)=>{
+    
+})
+
 module.exports = router

@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const category = { 
+const categoryApi = { 
     getAll: function(){
         return axios.get('/api/category/get')
     }
 }
 
-export default category
+export default categoryApi

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const auth = {
+const authApi = {
     login: function(data){
         return axios.post('/api/auth/login', data)
     },
@@ -11,7 +11,15 @@ const auth = {
 
     authenticate: function(){ 
         return axios.get('/api/auth/authenticate')
+    },
+
+    logout: function (){
+        return axios.get('/api/auth/logout')
+    },
+
+    forgotPassword: function(data){
+        return axios.post('/api/auth/forgot-password', data)
     }
 }
 
-export default auth
+export default authApi

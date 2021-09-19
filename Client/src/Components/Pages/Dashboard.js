@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
-import { UserContext } from '../../App'
-
+import React, { useContext } from 'react'
 import auth from '../../Services/api/auth.api'
+import { UserContext } from '../../App'
 
 import Menu from '../Inc/Menu'
 
-const Dashboard = (props) => {
-    console.log(props)
+const Dashboard = () => {
+    const { setLoggedIn } = useContext(UserContext)
+    
+    const logout = async ()=>{
+        const result = auth.logout()
+        .then(res => res.status === 200 && setLoggedIn(false))
+        .catch(res => alert(res.data.message))
+    }
+
     return (
         <div id="page-top">
 
@@ -204,16 +208,8 @@ const Dashboard = (props) => {
                                             <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
                                         </a>
-                                        <a className="dropdown-item" href="#">
-                                            <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Settings
-                                        </a>
-                                        <a className="dropdown-item" href="#">
-                                            <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Activity Log
-                                        </a>
                                         <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={()=>{logout()}}>
                                             <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Logout
                                         </a>
@@ -223,20 +219,14 @@ const Dashboard = (props) => {
                             </ul>
         
                         </nav>
-                        
-        
-                        
+ 
                         <div className="container-fluid">
-        
-                            
+                         
                             <h1 className="h3 mb-4 text-gray-800">Blank Page</h1>
         
                         </div>
-                        
-        
+ 
                     </div>
-                    
-        
                     
                     <footer className="sticky-footer bg-white">
                         <div className="container my-auto">
@@ -256,7 +246,7 @@ const Dashboard = (props) => {
                 <i className="fas fa-angle-up"></i>
             </a>
                 
-            <div className="modal fade" id="logoutModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            {/* <div className="modal fade" id="logoutModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
@@ -273,7 +263,7 @@ const Dashboard = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
     
         </div>
     )

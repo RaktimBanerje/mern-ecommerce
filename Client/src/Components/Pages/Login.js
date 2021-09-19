@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Formik, Form, Field ,ErrorMessage } from 'formik'
+import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
-import { Redirect } from 'react-router-dom'
 import { UserContext } from '../../App'
 
-import auth from '../../Services/api/auth.api'
+import authApi from '../../Services/api/auth.api'
 
 document.body.classList.add('bg-gradient-primary')
 
 const Login = (props) => {
-    const {loggedIn, setLoggedIn} = useContext(UserContext)
+    const {setLoggedIn} = useContext(UserContext)
 
     const initialValues = { email: 'raktimbanerjee9@gmail.com', password: 'Raktim365249' }
 
@@ -25,9 +25,8 @@ const Login = (props) => {
     
     const onSubmit = async (values) => {
         try{
-            const res = await auth.login(values)
-            res.status === 200 ? setLoggedIn(true) : setLoggedIn(false)
-            console.log(res.data.message)
+            const res = await authApi.login(values)
+            res.status === 200 && setLoggedIn(true)
         }   
         catch(err){
             setLoggedIn(false)
@@ -88,10 +87,10 @@ const Login = (props) => {
                                         </Formik>
                                         <hr />
                                         <div className="text-center">
-                                            <a className="small" href="forgot-password.html">Forgot Password?</a>
+                                            <Link className="small" to="/forgot-password">Forgot Password?</Link>
                                         </div>
                                         <div className="text-center">
-                                            <a className="small" href="register.html">Create an Account!</a>
+                                            <Link className="small" to="/register">Create an Account!</Link>
                                         </div>
                                     </div>
                                 </div>

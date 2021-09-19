@@ -30,4 +30,24 @@ const isLogin = async (req, res, next)=>{
     }
 }
 
-module.exports = { login, register, isLogin }
+const logout = async (req, res, next)=>{
+    if(req.cookies.access_token){
+        authService.logout(req.cookies.access_token, async (status, error)=>{
+            if(error) return res.status(status).json(error)
+            else return next()            
+        })  
+    }
+    else{
+        res.status(400).json({message: 'Bad request!'})
+    }
+}
+
+const forgotPassword = async (req, res, next)=>{
+    if(req.body){
+        authService.forgotPassword(req.body, async (status, error, message)=>{
+            
+        })
+    }
+}
+
+module.exports = { login, register, isLogin, logout, forgotPassword }

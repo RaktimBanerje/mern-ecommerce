@@ -1,8 +1,8 @@
 import React from 'react'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
-import auth from '../../Services/api/auth.api'
-import { Link, Redirect } from 'react-router-dom'
+import authApi from '../../Services/api/auth.api'
+import { Link } from 'react-router-dom'
 
 const Register = () => {
     const initialValues = {
@@ -32,7 +32,7 @@ const Register = () => {
     
     const onSubmit = async (values) => {
         try{
-            const res = await auth.register(values)
+            const res = await authApi.register(values)
             if(res.status === 200)
                 alert(res.data.message)
         }
@@ -105,7 +105,7 @@ const Register = () => {
                                 </Formik>
                             <hr />
                             <div className="text-center">
-                                <a className="small" href="forgot-password.html">Forgot Password?</a>
+                                <Link className="small" to="/forgot-password">Forgot Password?</Link>
                             </div>
                             <div className="text-center">
                                 <Link className="small" to="/login">Already have an account? Login!</Link>
