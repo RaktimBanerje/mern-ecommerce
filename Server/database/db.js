@@ -1,3 +1,3 @@
 module.exports = {
-    db: 'mongodb://localhost:27017/reactprojectdb'
+    db: `mongodb+srv://student:${process.env.MONGODB_USER_PASSWORD}@raktim.xxtkx.gcp.mongodb.net/reactDB?retryWrites=true&w=majority`
 }

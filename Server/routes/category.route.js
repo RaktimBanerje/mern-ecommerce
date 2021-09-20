@@ -24,4 +24,11 @@ router.get('/get', (req, res)=>{
     })
 })
 
+router.get('/get-parent', (req, res)=>{
+    categoryService.getParent((status, err, categories)=>{
+        if(err) return res.status(status).json(err)
+        else return res.status(status).json(categories)
+    })
+})
+
 module.exports = router

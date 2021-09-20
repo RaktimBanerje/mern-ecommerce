@@ -8,6 +8,8 @@ import Login from './Components/Pages/Login'
 import Register from './Components/Pages/Register'
 import NotFound from './Components/Pages/NotFound'
 import ForgotPassword from './Components/Pages/ForgotPassword'
+import AddCategory from './Components/Pages/AddCategory'
+import ListCategory from './Components/Pages/ListCategory'
 
 export const UserContext = React.createContext()
 
@@ -20,21 +22,21 @@ function PrivateRoute ({component, loggedIn, ...rest}) {
 } 
 
 const App = ()=>{
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(()=>{
       authApi.authenticate()
         .then(res => res.status === 200 && setLoggedIn(true))
-        .catch(err => setLoggedIn(false)) 
+        .catch(() => setLoggedIn(false)) 
   },[])
-
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [categories, setCategories] = useState([])
 
   return (
     <BrowserRouter>
-      <UserContext.Provider value = {{ loggedIn: loggedIn, setLoggedIn: setLoggedIn, categories: categories, setCategories: setCategories}}>
+      <UserContext.Provider value = {{ loggedIn, setLoggedIn }} >
         <Switch>
           <PrivateRoute exact loggedIn={loggedIn} path="/" component={ Dashboard } />
+          <PrivateRoute exact loggedIn={loggedIn} path="/add-category" component={ AddCategory } />
+          <PrivateRoute exact loggedIn={loggedIn} path="/list-category" component={ ListCategory } />
           <Route exact path='/register' render={(props)=>
             loggedIn ? <Redirect to="/" /> : <Register {...props} /> } 
           />
