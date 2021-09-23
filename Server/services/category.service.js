@@ -32,6 +32,28 @@ const getParent = async (cb)=>{
     catch(error) {cb(400, error)}
 }
 
+const edit = async (category, cb)=>{
+    try{
+        let newCategory = await categorySchema.findByIdAndUpdate({_id: category._id}, {
+            name: category.name, 
+            slug: slugify(category.name),
+        }, { new: true } )
+        cb(200, false, newCategory)
+    }
+    catch(error) {cb(400, error)}
+}
+
+const remove = async (category, cb)=>{
+    try{
+        let result = await categorySchema.findOneAndDelete({_id: category._id, parentId: /.*/})
+        if(result) 
+            cb(200, false)
+        else
+           throw new Error('Bad request')
+    }
+    catch(error) {cb(400, error)}
+}
+
 const arrangeCategories = (categories) => {
         const categoryList = []
         categories.forEach((category)=>{
@@ -48,41 +70,6 @@ const arrangeCategories = (categories) => {
             })
         })
         return categoryList
-}
-    
-//     for(var i=0;i<categories.length; i++){
-//         if(categories[i].parentId!=null){
-//         var pnamearr=await categorySchema.findById(categories[i].parentId);
-//         var pname=pnamearr.name;
-//         }else{
-//       var pname="No Parent";
-//         }
-//         categoryList.push({
-//             _id: categories[i]._id,
-//             name: categories[i].name,
-//             slug: categories[i].slug,
-//             parentname: pname
-//         })
-        
-//     }
-//     return categoryList
-// }
+}   
 
-// const arrangeCategories = (categories, parentId = null) => {
-//     const categoryList = []
-//     let category;
-//     if(parentId === null) category = categories.filter(category => category.parentId == undefined)
-//     else category = categories.filter(category => category.parentId == parentId )
-    
-//     for(let cat of category){
-//         categoryList.push({
-//             _id: cat._id,
-//             name: cat.name,
-//             slug: cat.slug,
-//             children: arrangeCategories(categories, cat._id)
-//         })
-//     }
-//     return categoryList
-// }
-
-module.exports = { add, getAll, getParent }
+module.exports = { add, getAll, getParent, edit, remove }

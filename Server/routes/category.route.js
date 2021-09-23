@@ -31,4 +31,18 @@ router.get('/get-parent', (req, res)=>{
     })
 })
 
+router.post('/edit', (req, res)=>{
+    categoryService.edit(req.body, (status, err, category)=>{
+        if(err) return res.status(status).json(err)
+        else return res.status(status).json(category)
+    })
+})
+
+router.post('/delete', (req, res)=>{
+    categoryService.remove(req.body, (status, err)=>{
+        if(err) return res.status(status).json(err)
+        else return res.status(status).send()
+    })
+})
+
 module.exports = router

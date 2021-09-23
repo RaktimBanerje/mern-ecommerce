@@ -9,6 +9,12 @@ const categoryApi = {
     },
     getParent: function(){
         return axios.get('/api/category/get-parent')
+    },
+    edit: function(values){
+        return axios.post('/api/category/edit', values)
+    },
+    delete: function(values){
+        return axios.post('/api/category/delete', values)
     }
 }
 

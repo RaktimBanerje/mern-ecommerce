@@ -1,16 +1,7 @@
-import React, { useEffect, useContext } from 'react'
-import { UserContext } from '../../App'
+import React from 'react'
 
-import categoryApi from '../../Services/api/category.api'
 import {Link} from 'react-router-dom';
 const Menu = () => {
-    const {categories, setCategories} = useContext(UserContext)
-
-    // useEffect(()=>{
-    //     categoryApi.getAll()
-    //       .then(res => res.status === 200 && setCategories(res.data))
-    //       .catch(err => {})        
-    // },[])
     
     return (
         <React.Fragment>
@@ -31,10 +22,7 @@ const Menu = () => {
                         <i className="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></Link>
                 </li>
-                
-                
 
-                
                 <li className="nav-item">
                     <Link className="nav-link" to="/add-category">
                         <i className="fas fa-fw fa-table"></i>
@@ -45,6 +33,12 @@ const Menu = () => {
                     <Link className="nav-link" to="/list-category">
                         <i className="fas fa-fw fa-table"></i>
                         <span>List Category</span></Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link className="nav-link" to="/add-product">
+                        <i className="fas fa-fw fa-table"></i>
+                        <span>Add Product</span></Link>
                 </li>
 
                 
