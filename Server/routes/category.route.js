@@ -31,6 +31,13 @@ router.get('/get-parent', (req, res)=>{
     })
 })
 
+router.get('/get-child-parent', (req, res)=>{
+    categoryService.getChildParent((status, err, categories)=>{
+        if(err) return res.status(status).json(err)
+        else return res.status(status).json(categories)
+    })
+})
+
 router.post('/edit', (req, res)=>{
     categoryService.edit(req.body, (status, err, category)=>{
         if(err) return res.status(status).json(err)

@@ -1,4 +1,5 @@
 require('dotenv').config()
+const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -23,6 +24,8 @@ app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use('/assets', express.static('public'))
+
 
 app.use('/api/auth', authRoutes)
 app.use('/api/category', categoryRoutes)

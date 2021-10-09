@@ -32,11 +32,23 @@ const getParent = async (cb)=>{
     catch(error) {cb(400, error)}
 }
 
+const getChildParent = async (cb)=>{
+    try{
+        
+        let categories = await categorySchema.find()
+        categories = arrangeAsChildParent(categories)
+        cb(200, false, categories)
+    }
+    catch(error) {cb(400, error)}
+}
+
+
 const edit = async (category, cb)=>{
     try{
         let newCategory = await categorySchema.findByIdAndUpdate({_id: category._id}, {
             name: category.name, 
             slug: slugify(category.name),
+            parentId: category.parentId
         }, { new: true } )
         cb(200, false, newCategory)
     }
@@ -66,10 +78,31 @@ const arrangeCategories = (categories) => {
                 _id: category._id,
                 name: category.name,
                 slug: category.slug,
-                parentName: parentName
+                parentName: parentName,
+                parentId: category.parentId
             })
         })
         return categoryList
-}   
+} 
 
-module.exports = { add, getAll, getParent, edit, remove }
+const arrangeAsChildParent = (categories, parentId = null)=>{
+    const categoryList = []
+    let category;
+    if(parentId == null)
+        category = categories.filter(cat => cat.parentId == undefined)
+    else 
+        category = categories.filter(cat => cat.parentId == parentId)
+    
+    for(let cate of category){
+        categoryList.push({
+            _id: cate._id,
+            name: cate.name,
+            slug: cate.slug,
+            children: arrangeAsChildParent(categories, cate._id)
+    
+        })
+    }
+    return categoryList
+}
+
+module.exports = { add, getAll, getChildParent, getParent, edit, remove }

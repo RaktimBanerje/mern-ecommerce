@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- Custom-Files -->
+    <link href="%PUBLIC_URL%/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Bootstrap css -->
+    <link href="%PUBLIC_URL%/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Main css -->
+    <link href="%PUBLIC_URL%/css/fontawesome-all.css" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <link href="%PUBLIC_URL%/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- pop-up-box -->
+    <link href="%PUBLIC_URL%/css/menu.css" rel="stylesheet" type="text/css" media="all" />
+
+    <!-- menu style -->
+    <link href="%PUBLIC_URL%/css/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="%PUBLIC_URL%/css/animate.css" rel="stylesheet">
+    <link href="%PUBLIC_URL%/css/style.css" rel="stylesheet">
+
+    <!-- web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="http://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet">
+    
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+	<!-- js-files -->
+	<!-- common jquery plugin -->
+	<script src="%PUBLIC_URL%js/jquery-3.3.1.min.js"></script>
+	<!-- //common jquery plugin -->
+
+	<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function () {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+
+			$().UItoTop({
+				easingType: 'easeOutQuart'
+			});
+
+		});
+	</script>
+	<!-- //here ends scrolling icon -->
+	<!-- js -->
+	<script src="%PUBLIC_URL%js/jquery-1.11.1.min.js"></script>
+	<!-- //js -->
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" src="%PUBLIC_URL%js/move-top.js"></script>
+	<script type="text/javascript" src="%PUBLIC_URL%js/easing.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function ($) {
+			$(".scroll").click(function (event) {
+				event.preventDefault();
+				$('html,body').animate({
+					scrollTop: $(this.hash).offset().top
+				}, 1000);
+			});
+		});
+	</script>
+	<!-- start-smoth-scrolling -->
+
+
+	<!-- nav smooth scroll -->
+	<script>
+		$(document).ready(function () {
+			$(".dropdown").hover(
+				function () {
+					$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+					$(this).toggleClass('open');
+				},
+				function () {
+					$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+					$(this).toggleClass('open');
+				}
+			);
+		});
+	</script>
+	<!-- //nav smooth scroll -->
+
+	<!-- popup modal (for location)-->
+	<script src="%PUBLIC_URL%js/jquery.magnific-popup.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('.popup-with-zoom-anim').magnificPopup({
+				type: 'inline',
+				fixedContentPos: false,
+				fixedBgPos: true,
+				overflowY: 'auto',
+				closeBtnInside: true,
+				preloader: false,
+				midClick: true,
+				removalDelay: 300,
+				mainClass: 'my-mfp-zoom-in'
+			});
+
+		});
+	</script>
+	<!-- //popup modal (for location)-->
+
+	<!-- scroll seller -->
+	<script src="%PUBLIC_URL%js/scroll.js"></script>
+	<!-- //scroll seller -->
+	
+	<!-- cart-js -->
+	<!-- <script src=""client_assets/js/minicart.js"></script> -->
+	<!-- <script>
+		paypals.minicarts
+			.render(); //use only unique class names other than paypals.minicarts.Also Replace same class name in css and minicart.min.js
+
+		paypals.minicarts.cart.on('checkout', function (evt) {
+			var items = this.items(),
+				len = items.length,
+				total = 0,
+				i;
+
+			// Count the number of each item in the cart
+			for (i = 0; i < len; i++) {
+				total += items[i].get('quantity');
+			}
+
+			if (total < 3) {
+				alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
+				evt.preventDefault();
+			}
+		});
+	</script> -->
+	<!-- //cart-js -->
+
+	<!-- theme switch js (light and dark)-->
+	<script src="%PUBLIC_URL%js/theme-change.js"></script>
+	<script>
+		function autoType(elementClass, typingSpeed) {
+			var thhis = $(elementClass);
+			thhis.css({
+				"position": "relative",
+				"display": "inline-block"
+			});
+			thhis.prepend('<div class="cursor" style="right: initial; left:0;"></div>');
+			thhis = thhis.find(".text-js");
+			var text = thhis.text().trim().split('');
+			var amntOfChars = text.length;
+			var newString = "";
+			thhis.text("|");
+			setTimeout(function () {
+				thhis.css("opacity", 1);
+				thhis.prev().removeAttr("style");
+				thhis.text("");
+				for (var i = 0; i < amntOfChars; i++) {
+					(function (i, char) {
+						setTimeout(function () {
+							newString += char;
+							thhis.text(newString);
+						}, i * typingSpeed);
+					})(i + 1, text[i]);
+				}
+			}, 1500);
+		}
+
+		$(document).ready(function () {
+			// Now to start autoTyping just call the autoType function with the 
+			// class of outer div
+			// The second paramter is the speed between each letter is typed.   
+			autoType(".type-js", 200);
+		});
+	</script>
+	<!-- //theme switch js (light and dark)-->
+
+	<!-- disable body scroll which navbar is in active -->
+	<script>
+		$(function () {
+			$('.navbar-toggler').click(function () {
+				$('body').toggleClass('noscroll');
+			})
+		});
+	</script>
+	<!-- //disable body scroll which navbar is in active -->
+
+	<!--bootstrap-->
+	<script src="%PUBLIC_URL%js/bootstrap.min.js"></script>
+	<!-- //bootstrap-->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="%PUBLIC_URL%js/jquery.backstretch.min.js"></script>
+	<script src="%PUBLIC_URL%js/wow.min.js"></script>
+	<script src="%PUBLIC_URL%js/jquery.waypoints.min.js"></script>
+	<script src="%PUBLIC_URL%js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="%PUBLIC_URL%js/scripts.js"></script>
+
+	<!-- //Js scripts -->
+
+	<script>
+		
+		$(document).ready(function (){
+			const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+			toggleSwitch.addEventListener('change', switchTheme, false);
+		})
+		
+		$('#addCart').submit(function (event){
+			event.preventDefault()
+			
+			const values = new FormData(event.target)
+
+			fetch(`<?php echo base_url(); ?>cart/add/${values.get('category')}/${values.get('id')}/${values.get('qty')}`)
+				.then((response) => {
+					if(response.status === 200)
+						alert('New item is added to your cart');
+					else
+						return Promise.reject('Something went wrong')
+				})
+				.catch(error => {
+					alert('Something went wrong')
+				})
+		})
+
+		$('#register-form').submit(function (event){
+			event.preventDefault()
+
+			fetch('<?php echo base_url();?>register', {
+				method: 'POST', 
+				body: new FormData(event.target)
+			})
+			.then(response => {
+				if(response.status === 200){
+					$('#register-alert')
+						.removeClass('alert-danger alert-success alert-warning')
+						.addClass('alert-success')
+						.text('You are successfully registered, Please check your email address for email verification link')
+					return response
+				}
+				else if(response.status === 409){
+					$('#register-alert')
+						.removeClass('alert-danger alert-success alert-warning')
+						.addClass('alert-warning')
+						.text('You are already registered')
+					return response
+				}
+				else if(response.status === 400){
+					return response.json()
+				}
+				else{
+					$('#register-alert')
+						.removeClass('alert-danger alert-success alert-warning')
+						.addClass('alert-danger')
+						.text('Server error. Try again!')
+					return response
+				}
+			})
+			.then(formErrors => {
+				for(const [key, value] of Object.entries(formErrors)){
+					$(`#register-form [name=${key}] + .invalid-feedback`).text(value)
+				}				
+			})
+		})
+
+	</script>
+  
+  </body>
+</html>
