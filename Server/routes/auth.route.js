@@ -1,22 +1,40 @@
 const express = require('express')
-const authMiddleware = require('../middleware/auth.middleware')
+const adminAuthMiddleware = require('../middleware/admin.auth.middleware')
+const customerAuthMiddleware = require('../middleware/customer.auth.middleware')
 
 const router = express.Router()
 
-router.post('/login', authMiddleware.login)
+router.post('/admin/login', adminAuthMiddleware.login)
 
-router.post('/register', authMiddleware.register)
+router.post('/admin/register', adminAuthMiddleware.register)
 
-router.get('/authenticate', authMiddleware.isLogin, (_, res)=>{
+router.get('/admin/authenticate', adminAuthMiddleware.isLogin, (_, res)=>{
     res.status(200).json({message: 'Authenticate'})
 })
 
-router.get('/logout', authMiddleware.logout, (_, res)=>{
+router.get('/admin/logout', adminAuthMiddleware.logout, (_, res)=>{
     res.status(200).send();
 })
 
-router.post('/forgot-password', authMiddleware.forgotPassword, (_, res)=>{
-    
+router.post('/admin/forgot-password', adminAuthMiddleware.forgotPassword, (_, res)=>{
+    res.status(500).send()    
+})
+
+
+router.post('/customer/login', customerAuthMiddleware.login)
+
+router.post('/customer/register', customerAuthMiddleware.register)
+
+router.get('/customer/authenticate', customerAuthMiddleware.isLogin, (_, res)=>{
+    res.status(200).json({message: 'Authenticate'})
+})
+
+router.get('/customer/logout', customerAuthMiddleware.logout, (_, res)=>{
+    res.status(200).send();
+})
+
+router.post('/customer/forgot-password', customerAuthMiddleware.forgotPassword, (_, res)=>{
+    res.status(500).send()    
 })
 
 module.exports = router

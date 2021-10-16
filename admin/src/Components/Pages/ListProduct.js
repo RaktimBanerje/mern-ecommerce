@@ -27,9 +27,7 @@ const ListProduct = () => {
     }
 
     useEffect(() => {
-        if ( state.products.length === 0 ) {
-            getAllProduct()
-        }
+        getAllProduct()
     },[])
 
     const deleteProduct = async (productId) => {
@@ -76,7 +74,7 @@ const ListProduct = () => {
                                     {
                                         state.products.map(product => (
                                             <tr key={product._id}>
-                                                <td className="text-center">{product.category}</td>
+                                                <td className="text-center">{product.categoryId}</td>
                                                 <td className="text-center">{product.name}</td>
                                                 <td className="text-center">{product.title}</td>
                                                 <td className="text-center">{product.marketPrice}</td>

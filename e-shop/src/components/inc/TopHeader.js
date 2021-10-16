@@ -1,8 +1,9 @@
-import React from 'react'
+import { Link } from 'react-router-dom';
+import { Fragment } from 'react';
 
 const TopHeader = () => {
     return (
-        <React.Fragment>
+        <Fragment>
             <div className="agile-main-top">
                 <div className="container">
                     <div className="row main-top-w3l py-2">
@@ -17,16 +18,12 @@ const TopHeader = () => {
                                         <i className="fas fa-map-marker mr-1"></i>Select Location</a>
                                 </li>
                                 <li className="mx-3">
-                                    <a href="" data-toggle="modal" data-target="#exampleModal" className="" id="login-btn">
-                                        <i className="fas fa-sign-in-alt mr-1"></i> Log In </a>
+                                    <Link to="/login" className="" id="login-btn">
+                                        <i className="fas fa-sign-in-alt mr-1"></i> Log In </Link>
                                 </li>
                                 <li>
-                                    <a href="" data-toggle="modal" data-target="#exampleModal2" className="" id="register-btn">
-                                        <i className="fas fa-sign-out-alt mr-1"></i>Register </a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url() ?>signout" className="" id="logout-btn">
-                                        Logout </a>
+                                    <Link to="/register" data-toggle="modal" data-target="#exampleModal2" className="" id="register-btn">
+                                        <i className="fas fa-sign-out-alt mr-1"></i>Register </Link>
                                 </li>
         
                             </ul>
@@ -412,133 +409,7 @@ const TopHeader = () => {
                     <div className="clearfix"></div>
                 </div>
             </div>
-                            
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title text-center">Log In</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <form action="<?php echo base_url();?>signin" method="post">
-                                <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Username" name="email" required="" value="raktimbanerjee9@gmail.com" />
-                                </div>
-                                <div className="form-group">
-                                    <input type="password" className="form-control" placeholder="Password" name="password"
-                                        required="" value="Raktim365249" />
-                                </div>
-                                <div className="right-w3l">
-                                    <input type="submit" className="form-control" value="Log in" />
-                                </div>
-                                <div className="sub-w3l">
-                                    <div className="custom-control custom-checkbox mr-sm-2">
-                                        <input type="checkbox" className="custom-control-input" id="customControlAutosizing" />
-                                        <label className="custom-control-label" htmlFor="customControlAutosizing">Remember me?</label>
-                                    </div>
-                                </div>
-                                <p className="text-center dont-do mt-3">Don't have an account?
-                                    <a href="#" data-toggle="modal" data-target="#exampleModal2">
-                                        Register Now</a>
-                                </p>
-                                <p className="text-center dont-do mt-3">(Or)</p>
-                                <div className="social text-center mt-2">
-                                    <ul className="list-unstyled">
-                                        <li className="d-inline">
-                                            <a className="icon fb" href="#facebook">
-                                                <i className="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li className="d-inline mx-1">
-                                            <a className="icon tw" href="#twitter">
-                                                <i className="fab fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li className="d-inline">
-                                            <a className="icon gp" href="#google-plus">
-                                                <i className="fab fa-google-plus-g"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div className="modal fade" id="exampleModal2" tabIndex="-1" role="dialog" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Register</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-        
-                            <div id="register-alert" className="alert"></div>
-        
-                            <form id="register-form">
-                                <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="Your Name" name="name" value="Raktim Banerjee" />
-                                    <div className="invalid-feedback d-block"></div>
-                                </div>
-                                <div className="form-group">
-                                    <input type="email" className="form-control" placeholder="Email" name="email" value="raktimbanerjee9@gmail.com" />
-                                    <div className="invalid-feedback d-block"></div>
-                                </div>
-                                <div className="form-group">
-                                    <input type="password" className="form-control" placeholder="Password" name="password"
-                                        id="password1" value="Raktim365249" />
-                                    <div className="invalid-feedback d-block"></div>
-                                </div>
-                                <div className="form-group">
-                                    <input type="password" className="form-control" placeholder="Confirm Password"
-                                        name="confirm_password" id="password2" value="Raktim365249" />
-                                    <div className="invalid-feedback d-block"></div>
-                                </div>
-                                <div className="right-w3l">
-                                    <input type="submit" className="form-control" value="Register" />
-                                </div>
-                                <div className="sub-w3l">
-                                    <div className="custom-control custom-checkbox mr-sm-2">
-                                        <input type="checkbox" className="custom-control-input" id="customControlAutosizing2" name="t&c" />
-                                        <label className="custom-control-label" htmlFor="customControlAutosizing2">I Accept to the Terms
-                                            & Conditions</label>
-                                    </div>
-                                </div>
-                                <p className="text-center dont-do mt-3">(Or)</p>
-                                <div className="social text-center mt-2">
-                                    <ul className="list-unstyled">
-                                        <li className="d-inline">
-                                            <a className="icon fb" href="#facebook">
-                                                <i className="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li className="d-inline mx-1">
-                                            <a className="icon tw" href="#twitter">
-                                                <i className="fab fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li className="d-inline">
-                                            <a className="icon gp" href="#google-plus">
-                                                <i className="fab fa-google-plus-g"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </React.Fragment>
+        </Fragment>
     )
 }
 

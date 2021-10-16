@@ -10,6 +10,7 @@ const dbConfig = require('./database/db')
 const authRoutes = require('./routes/auth.route')
 const productRoutes = require('./routes/product.route')
 const categoryRoutes = require('./routes/category.route')
+const cartRoutes = require('./routes/cart.route')
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use('/assets', express.static('public'))
 app.use('/api/auth', authRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/product', productRoutes)
+app.use('/api/cart', cartRoutes)
 
 app.listen(8080, ()=>{
     console.log('App is running on PORT 8080');

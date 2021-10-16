@@ -2,23 +2,23 @@ import axios from 'axios'
 
 const authApi = {
     login: function(data){
-        return axios.post('/api/auth/login', data)
+        return axios.post('/api/auth/admin/login', data)
     },
 
     register: function(data){
-        return axios.post('/api/auth/register', data)
+        return axios.post('/api/auth/admin/register', data)
     },
 
     authenticate: function(){ 
-        return axios.get('/api/auth/authenticate')
+        return axios.get('/api/auth/admin/authenticate')
     },
 
     logout: function (){
-        return axios.get('/api/auth/logout')
+        return axios.get('/api/auth/admin/logout')
     },
 
     forgotPassword: function(data){
-        return axios.post('/api/auth/forgot-password', data)
+        return axios.post('/api/auth/admin/forgot-password', data)
     }
 }
 

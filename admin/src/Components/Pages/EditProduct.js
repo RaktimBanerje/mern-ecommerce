@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 
 import productApi from '../../Services/api/product.api'
+import categoryApi from '../../Services/api/category.api'
 
 import Navbar from '../Inc/Navbar'
 import Menu from '../Inc/Menu'
@@ -11,24 +12,24 @@ import FieldControl from '../FormComponent/FieldControl'
 import { UserContext } from '../../App'
 
 const EditProduct = ({location}) => {
+    
+    const { state, setState } = useContext(UserContext)
 
     const [initialValues, setInitialValues] = useState({
-        category: '',
+        categoryId: '',
         title: '',
         description: '',
         marketPrice: '',
-        yourPrice: '',
+        sellingPrice: '',
         lunch: '',
         keyword: '',
         metaTitle: '',
         metaDescription: '',
     })
 
-    const { state, setState } = useContext(UserContext)
-    const productId = location.state.productId
-
     useEffect(() => {
-        productApi.getProductById(productId)
+   
+        productApi.getProductById(location.state.productId)
             .then(res => {
                 if(res.status === 200)
                     setInitialValues(res.data)
@@ -36,6 +37,20 @@ const EditProduct = ({location}) => {
             .catch(error=>{
                 console.log(error)
             })
+       
+        categoryApi.refreshCategoryList()
+            .then(result => {
+                setState({
+                    ...state,
+                    categories: result[0].data,
+                    parentCategories: result[1].data,
+                    parentChildCategories: result[2].data
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            }) 
+                       
     }, [])
 
     const onSubmit = async (values) => {
@@ -44,11 +59,10 @@ const EditProduct = ({location}) => {
         for(const [key, value] of Object.entries(values))
             form.append(key, value)
 
-        console.log(form.get('photo'))
         try{
-            const res = await productApi.add(form)
+            const res = await productApi.update(form)
             if(res.status === 200){
-                alert('New product is added')
+                alert('Product is updated')               
             }
         }
         catch(error){ 
@@ -80,34 +94,61 @@ const EditProduct = ({location}) => {
                             >
                                 {
                                     (formik) => <Form>
-                                        <Field as="select" id="category" name="categoryId" className="form-control">
+                                        <Field as="select" id="categoryId" name="categoryId" className="form-control">
                                             {
                                                 <React.Fragment>    
-                                                <option value="">--Select--</option>
-                                                {
-                                                    state.parentChildCategories.map(parentCategory => (
-                                                        <optgroup label={parentCategory.name} key={parentCategory._id}>
-                                                            {
-                                                                parentCategory.children.map(childCategory => (
-                                                                    <option value={childCategory._id} key={childCategory._id}>{childCategory.name}</option>
-                                                                ))
-                                                            }
-                                                        </optgroup>
-                                                    ))
-                                                }                                                    
+                                                    <option value="">--Select--</option>
+                                                    {
+                                                        state.parentChildCategories.map(parentCategory => (
+                                                            <optgroup label={parentCategory.name} key={parentCategory._id}>
+                                                                {
+                                                                    parentCategory.children.map(childCategory => (
+                                                                        <option value={childCategory._id} key={childCategory._id}>{childCategory.name}</option>
+                                                                    ))
+                                                                }
+                                                            </optgroup>
+                                                        ))
+                                                    }                                                    
                                                </React.Fragment>
                                             }
                                         </Field>
 
-                                        <FieldControl control="input" name="name" label="Name" />
-                                        <FieldControl control="input" name="title" label="Title" />
-                                        <FieldControl control="textarea" name="description" label="Description" />
-                                        <FieldControl control="input" name="marketPrice" label="Market Price" />
-                                        <FieldControl control="input" name="sellingPrice" label="Selling Price" />
-                                        <FieldControl control="input" name="metaTitle" label="Meta Title" />
-                                        <FieldControl control="input" name="metaDescription" label="Meta Description" />
-                                        <FieldControl control="file" name="photo" label="Photo" />
+                                        <FieldControl control="input"       name="name"             label="Name" />
+                                        <FieldControl control="input"       name="title"            label="Title" />
+                                        <FieldControl control="textarea"    name="description"      label="Description" />
+                                        <FieldControl control="input"       name="marketPrice"      label="Market Price" />
+                                        <FieldControl control="input"       name="sellingPrice"     label="Selling Price" />
+                                        <FieldControl control="input"       name="metaTitle"        label="Meta Title" />
+                                        <FieldControl control="input"       name="metaDescription"  label="Meta Description" />
+
+                                        <div className="form-group">
+                                            <label htmlFor='photo'>Photo</label>
+                                            <Field>
+                                                {
+                                                    ({form})=>(
+                                                        <React.Fragment>
+                                                        <input
+                                                            id='photo'
+                                                            name='photo'
+                                                            type="file"
+                                                            onChange={(e)=>{ 
+                                                                form.setFieldValue('photo', e.target.files[0])
+                                                                document.getElementsByName('photo-preview')[0].src = URL.createObjectURL(e.target.files[0])
+                                                                
+                                                            }}
+                                                            className="form-control" 
+                                                    />
+                                                    {
+                                                        <img name={'photo-preview'} src={`http://localhost:8080/assets/product-image/${form.values.photo}`} height="200" width="200" />
+                                                    }
+                                                    </React.Fragment>
+                                                    )
+                                                }
+                                            </Field>
+                                            <ErrorMessage className="d-block invalid-feedback" name='photo' component="span" />
+                                        </div>
                                         
+                                        <input type="hidden" name="productId" value={location.state.productId} />      
                                         <input className="btn btn-lg btn-success" type="submit" name="submit" value="Save"/>
                                     </Form>
                                 }

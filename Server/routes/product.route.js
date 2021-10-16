@@ -1,16 +1,8 @@
 const express = require('express')
 const path = require('path')
 const multer = require('multer')
-const router = express.Router()
-
-const authMiddleware = require('../middleware/auth.middleware')
 const productService = require('../services/product.service')
-
-/* 
-* check weather user is authenticate or not 
-*/
-router.use(authMiddleware.isLogin)
-
+const router = express.Router()
 /* 
 * multer configuration
 */
@@ -34,6 +26,16 @@ router.post('/add', upload.single('photo'), async (req, res, next)=>{
             res.status(200).json(product)
     })
 })
+
+router.post('/update', upload.single('photo'), async (req, res, next)=>{
+    productService.update(req, async(status, error, product)=>{
+        if(error)
+            res.status(status).json(error)
+        else
+            res.status(200).json(product)
+    })
+})
+
 
 router.get('/get', async (req, res, next)=>{
     productService.get(null, async (status, error, product)=>{

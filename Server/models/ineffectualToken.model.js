@@ -12,4 +12,4 @@ const ineffectualTokenSchema = mongoose.Schema({
     }
 }, {timestamp: true})
 
-module.exports = mongoose.model('ineffectualToken', ineffectualTokenSchema)
+module.exports = mongoose.model('IneffectualToken', ineffectualTokenSchema)

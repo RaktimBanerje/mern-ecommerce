@@ -3,33 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios' 
 
-import TopHeader from './Components/Inc/TopHeader'
-import HeaderBottom from './Components/Inc/HeaderBottom'
-import Navigation from './Components/Inc/Navigation'
-import Banner from './Components/Inc/Banner'
-import Advertisement from './Components/Inc/Advertisement'
-import Middle from './Components/Inc/Middle'
-import Footer from './Components/Inc/Footer'
-import Copyright from './Components/Inc/Copyright'
-
+axios.defaults.baseURL = 'http://localhost:8080/'
+axios.defaults.withCredentials = true
 
 ReactDOM.render(
-  <React.StrictMode>
-    
-    <TopHeader />
-    <HeaderBottom />
-    <Navigation />
-    <Banner />
-    <Advertisement />
-
+  <React.StrictMode> 
     <App />
-
-    <Middle />
-    <Advertisement />
-    <Footer />
-    <Copyright />    
-
   </React.StrictMode>,
   document.getElementById('root')
 );

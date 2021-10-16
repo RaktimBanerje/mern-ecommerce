@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const productModel = mongoose.Schema({
+    categoryId: {
+        type: String,
+        require: [true, 'Product Category is require']
+    },
     name: {
         type: String,
         require: [true, 'Product {Field} is require']
@@ -35,4 +39,4 @@ const productModel = mongoose.Schema({
     }  
 }, {timestamp: true})
 
-module.exports = mongoose.model('product', productModel)
+module.exports = mongoose.model('Product', productModel)

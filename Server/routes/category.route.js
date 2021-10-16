@@ -1,9 +1,6 @@
 const express = require('express')
 const categoryService = require('../services/category.service')
-const authMiddleware = require('../middleware/auth.middleware')
 const router= express.Router()
-
-router.use(authMiddleware.isLogin)
 
 router.post('/add', (req, res)=>{
     if(req.body){

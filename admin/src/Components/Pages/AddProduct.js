@@ -39,7 +39,7 @@ const AddProduct = () => {
         title: '',
         description: '',
         marketPrice: '',
-        yourPrice: '',
+        sellingPrice: '',
         lunch: '',
         keyword: '',
         metaTitle: '',
@@ -52,7 +52,6 @@ const AddProduct = () => {
         for(const [key, value] of Object.entries(values))
             form.append(key, value)
 
-        console.log(form.get('photo'))
         try{
             const res = await productApi.add(form)
             if(res.status === 200){

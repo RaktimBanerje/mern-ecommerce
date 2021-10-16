@@ -1,7 +1,7 @@
-const authService = require('../services/auth.service')
+const adminAuthService = require('../services/admin.auth.service')
 
 const login = (req, res, next)=>{
-    authService.login(req.body, async (status, token, message) => {
+    adminAuthService.login(req.body, async (status, token, message) => {
         if(token){ 
             res.cookie('access_token', token, {
                 maxAge: process.env.ACCESS_TOKEN_EXPAIRY_TIME, 
@@ -13,14 +13,14 @@ const login = (req, res, next)=>{
 }
 
 const register = (req, res, next)=>{
-    authService.register(req.body, async (status, message) => {
+    adminAuthService.register(req.body, async (status, message) => {
         res.status(status).json(message)
     })
 }
 
 const isLogin = async (req, res, next)=>{
     if(req.cookies.access_token){
-        authService.isAuthenticate(req.cookies.access_token, async (status, error, valid, message)=>{
+        adminAuthService.isAuthenticate(req.cookies.access_token, async (status, error, valid, message)=>{
             if(error) return res.status(status).json(message)
             if(valid) return next()            
         })  
@@ -32,7 +32,7 @@ const isLogin = async (req, res, next)=>{
 
 const logout = async (req, res, next)=>{
     if(req.cookies.access_token){
-        authService.logout(req.cookies.access_token, async (status, error)=>{
+        adminAuthService.logout(req.cookies.access_token, async (status, error)=>{
             if(error) return res.status(status).json(error)
             else return next()            
         })  
@@ -44,7 +44,7 @@ const logout = async (req, res, next)=>{
 
 const forgotPassword = async (req, res, next)=>{
     if(req.body){
-        authService.forgotPassword(req.body, async (status, error, message)=>{
+        adminAuthService.forgotPassword(req.body, async (status, error, message)=>{
             
         })
     }

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const userSchema = require('../models/user.model')
+const userSchema = require('../models/admin.user.model')
 const ineffectualTokenSchema = require('../models/ineffectualToken.model')
 const transporter = require('./email.service')
 
