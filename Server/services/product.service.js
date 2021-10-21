@@ -87,7 +87,7 @@ const update = async(req, cb)=>{
     }
 }
 
-const get = async(productId = null, cb)=>{
+const get = async(productId = null)=>{
     
     let products = {}
 
@@ -97,10 +97,10 @@ const get = async(productId = null, cb)=>{
         else
             products = await productModel.find()
 
-        cb(200, false, products)
+        return {status: 200, error: false, product: products}
     }
     catch(error) {
-        cb(500, error, false)
+        return {status: 500, error: error, product: false}
     }
 }
 

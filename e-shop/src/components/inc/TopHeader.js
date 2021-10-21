@@ -39,7 +39,7 @@ const TopHeader = () => {
                         <i className="fas fa-map-marker"></i> Please Select Your Location</h3>
                     <select className="list_of_cities">
                         <optgroup label="Popular Cities">
-                            <option selected style={{display:"none", color:"#eee"}}>Select City</option>
+                            <option defaultValue style={{display:"none", color:"#eee"}}>Select City</option>
                             <option>Birmingham</option>
                             <option>Anchorage</option>
                             <option>Phoenix</option>

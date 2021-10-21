@@ -38,24 +38,25 @@ router.post('/update', upload.single('photo'), async (req, res, next)=>{
 
 
 router.get('/get', async (req, res, next)=>{
-    productService.get(null, async (status, error, product)=>{
-        if(error)
-            res.status(status).json(error)
-        else
-            res.status(200).json(product)       
-    })
+    const { status, error, product } = await productService.get(null)
+    
+    if(error)
+    res.status(status).json(error)
+    else
+        res.status(200).json(product)       
 })
 
 router.get('/get/:id', async (req, res, next)=>{
     
     const productId = req.params['id']
     
-    productService.get(productId, async (status, error, product)=>{
-        if(error)
-            res.status(status).json(error)
-        else
-            res.status(200).json(product)  
-    })
+    const { status, error, product } = await productService.get(productId)
+    
+    if(error)
+        res.status(status).json(error)
+    else
+        res.status(200).json(product)       
+
 })
 
 router.get('/delete/:id', async (req, res, next)=>{

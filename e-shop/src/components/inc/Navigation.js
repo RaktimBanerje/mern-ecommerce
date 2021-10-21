@@ -11,6 +11,7 @@ const Navigation = () => {
                     <div className="agileits-navi_search">
                         
                         <LeftSidebar />
+                       
                         <a className="btn btn-primary btn-customized open-menu" href="#" role="button">
                             <i className="fas fa-align-left"></i> <span>Menu</span>
                         </a>

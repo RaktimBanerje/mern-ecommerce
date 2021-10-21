@@ -1,4 +1,4 @@
-import React from 'react'
+import { Link } from "react-router-dom"
 
 const HeaderBottom = () => {
     return (
@@ -49,9 +49,9 @@ const HeaderBottom = () => {
                                     <a href="checkout.html"><i className="far fa-heart"></i></a>
                                 </div>
                                 <div className="wthreecartaits wthreecartaits2 cart cart box_1">
-                                    <a href="<?php echo base_url()?>checkout" className="btn w3view-cart p-0">
-                                         <i class="fas fa-shopping-cart" style={{fontSize: '22px'}}></i> Cart
-                                    </a>
+                                    <Link to="/cart" className="btn w3view-cart p-0">
+                                         <i className="fas fa-shopping-cart" style={{fontSize: '22px'}}></i> Cart
+                                    </Link>
                                 </div>
                             </div>
                             

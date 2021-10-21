@@ -23,6 +23,7 @@ jQuery(document).ready(function() {
     });
 
     $('.open-menu').on('click', function(e) {
+		console.log('click')
     	e.preventDefault();
         $('.sidebar').addClass('active');
         $('.overlay').addClass('active');

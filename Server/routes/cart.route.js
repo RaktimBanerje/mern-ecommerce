@@ -12,6 +12,28 @@ router.get('/get', (req, res)=>{
     })
 })
 
+router.patch('/increment', (req, res)=>{
+
+    const productId = req.query.productId, qty = req.query.qty
+
+    if(!productId || !qty)  return res.status(400).send()     
+    
+    cartService.changeQuantity(req.user, productId, qty, (status, error) => {
+        if(error) return res.status(status).json(error)
+        else return res.status(status).send()
+    })
+})
+
+router.delete('/remove/:productId',  (req, res) => {
+    
+    if(!req.params['productId']) return res.status(400).send()
+
+    cartService.remove(req.user, req.params['productId'], (status, error) => {
+        if(error) return res.status(status).json(error)
+        else return res.status(status).send()
+    })
+})
+
 router.post('/add', (req, res)=>{
     cartService.add(req.user, req.body, async (status, error)=>{
         if(error) return res.status(status).json(error)
