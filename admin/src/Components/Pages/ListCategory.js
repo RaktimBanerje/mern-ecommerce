@@ -76,7 +76,7 @@ const ListCategory = () => {
  
                         <div className="container-fluid">
                          
-                            <h1 className="h3 mb-4 text-gray-800">List category</h1>
+                            <h1 className="h3 mb-4 text-gray-800">Category List</h1>
                             
                             <table className="table table-striped table-hover">
                                 <thead className="thead-dark">

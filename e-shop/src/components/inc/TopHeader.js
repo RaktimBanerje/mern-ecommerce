@@ -1,7 +1,18 @@
-import { Link } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react'
+import authApi from '../../services/api/auth.api'
+import { UserContext } from '../../App'
+import { Link } from 'react-router-dom'
 
 const TopHeader = () => {
+    const {state, setState} = useContext(UserContext)
+
+    const logout = (event) => {
+        event.preventDefault()
+        authApi.logout()
+            .then(res => res.status === 200 && setState({...state, loggedIn: false}))
+            .catch(err => alert('Something went wrong'))
+    }
+
     return (
         <Fragment>
             <div className="agile-main-top">
@@ -17,17 +28,27 @@ const TopHeader = () => {
                                     <a className="play-icon popup-with-zoom-anim " href="#small-dialog1">
                                         <i className="fas fa-map-marker mr-1"></i>Select Location</a>
                                 </li>
-                                <li className="mx-3">
-                                    <Link to="/login" className="" id="login-btn">
-                                        <i className="fas fa-sign-in-alt mr-1"></i> Log In </Link>
-                                </li>
-                                <li>
-                                    <Link to="/register" data-toggle="modal" data-target="#exampleModal2" className="" id="register-btn">
-                                        <i className="fas fa-sign-out-alt mr-1"></i>Register </Link>
-                                </li>
-        
-                            </ul>
-                            
+                                {state.loggedIn? (
+                                    <li className="mx-3">
+                                        <Link to="/logout" onClick={(event)=>logout(event)}>
+                                            <i className="fas fa-sign-in-alt mr-1"></i> Logout 
+                                        </Link>
+                                    </li>
+                                ):(
+                                    <Fragment>
+                                        <li className="mx-3">
+                                            <Link to="/login">
+                                                <i className="fas fa-sign-in-alt mr-1"></i> Log In 
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/register">
+                                                <i className="fas fa-sign-out-alt mr-1"></i>Register 
+                                            </Link>
+                                        </li>
+                                    </Fragment>
+                                )}
+                            </ul>                           
                         </div>
                     </div>
                 </div>

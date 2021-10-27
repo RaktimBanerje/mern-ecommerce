@@ -21,6 +21,7 @@ function PrivateRoute ({component: Component, loggedIn, ...rest}) {
 const App = () => {  
   
   const [ state, setState ] = useState({
+    user: {},
     loggedIn: false,
     cart: [],
     products: []
@@ -28,8 +29,8 @@ const App = () => {
 
   useEffect(() => {
     authApi.authenticate()
-      .then(res => res.status === 200 && setState({...state, loggedIn: true}))
-      .catch(err => setState({...state, loggedIn: false}))
+      .then(res => res.status === 200 && setState(state => ({...state, loggedIn: true})))
+      .catch(err => setState(state => ({...state, loggedIn: false})))
   }, [])
 
   useEffect(() => {
@@ -44,7 +45,6 @@ const App = () => {
           {/* Private Routes */}
           <Route exact loggedIn={state.loggedIn} path="/cart" component={Cart} />
           <Route exact loggedIn={state.loggedIn} path="/payment" component={PaymentSuccess} />
-          {/* <Route exact loggedIn={state.loggedIn} path="/payment" component={PaymentSuccess} /> */}
       
           <Route exact path="/" component={Home} />          
           <Route exact path="/product-view" component={ProductView} />

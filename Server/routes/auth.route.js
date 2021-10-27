@@ -1,6 +1,7 @@
 const express = require('express')
 const adminAuthMiddleware = require('../middleware/admin.auth.middleware')
 const customerAuthMiddleware = require('../middleware/customer.auth.middleware')
+const customerService = require('../services/customer.auth.service')
 
 const router = express.Router()
 
@@ -20,6 +21,11 @@ router.post('/admin/forgot-password', adminAuthMiddleware.forgotPassword, (_, re
     res.status(500).send()    
 })
 
+router.get('/customer', customerAuthMiddleware.isLogin, async (req, res)=>{
+    const {status, error, user} = await customerService.getUser(req.user)
+    if(error) return res.status(status).json(error)
+    else return res.status(status).json(user)
+})
 
 router.post('/customer/login', customerAuthMiddleware.login)
 

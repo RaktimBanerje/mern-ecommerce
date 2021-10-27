@@ -1,6 +1,9 @@
 import axios from 'axios'
 
 const authApi = {
+    getUser: function(){
+        return axios.get('/api/auth/customer')
+    },
     login: function(data){
         return axios.post('/api/auth/customer/login', data)
     },

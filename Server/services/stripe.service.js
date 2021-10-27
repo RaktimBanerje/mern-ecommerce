@@ -11,6 +11,14 @@ const createProduct = async product => {
     return striptProduct
 }
 
+const retriveProduct = async id => {
+    return await stripe.products.retrieve(id);
+}
+
+const retrivePrice = async id => {
+    return await stripe.prices.retrieve(id);
+}
+
 const createPrice = async (unit_amount, product) => {
     const stripePrice = stripe.prices.create({
         unit_amount: unit_amount,
@@ -21,8 +29,7 @@ const createPrice = async (unit_amount, product) => {
     return stripePrice
 }   
 
-const createCheckoutSeason = async products => {
-    
+const createCheckoutSeason = async (user, products, shippingDetails) => {
     try{
 
         const line_items = await Promise.all(products.map(async product => {
@@ -38,9 +45,11 @@ const createCheckoutSeason = async products => {
 
         const session = await stripe.checkout.sessions.create({
             line_items,
+            client_reference_id: user.id,
+            metadata: { shippingDetails: JSON.stringify(shippingDetails) },
             payment_method_types: ['card'],
             mode: 'payment',
-            success_url: `${process.env.BASE_URL}payment?sessionId=${session.id}&success=true`,
+            success_url: `${process.env.BASE_URL}payment?sessionId={CHECKOUT_SESSION_ID}&success=true`,
             cancel_url: `${process.env.BASE_URL}payment?canceled=true`,
         })
 
@@ -60,4 +69,27 @@ const createCheckoutSeason = async products => {
     }    
 }
 
-module.exports = { createCheckoutSeason }
+const retriveSession = async (sessionId) => {
+    try{
+        const session = await stripe.checkout.sessions.retrieve(sessionId)
+        const line_items = await stripe.checkout.sessions.listLineItems(sessionId)
+
+        session.metadata.shippingDetails = JSON.parse(session.metadata.shippingDetails)
+        session.items = line_items.data
+
+        return {
+            status: 200,
+            error: false,
+            session: session
+        }
+    }
+    catch(error) {
+        return{
+            status: 500, 
+            error: error,
+            session: null
+        }
+    }
+}
+
+module.exports = { createCheckoutSeason, retriveSession, retriveProduct, retrivePrice }

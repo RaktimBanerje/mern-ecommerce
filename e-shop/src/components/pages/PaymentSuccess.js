@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import OrderApi from '../../services/api/order.api' 
+import orderApi from '../../services/api/order.api'
 
 import TopHeader from '../inc/TopHeader'
 import HeaderBottom from '../inc/HeaderBottom'
@@ -18,8 +18,8 @@ const PaymentSuccess = () => {
       // Check to see if this is a redirect back from Checkout
       const query = new URLSearchParams(window.location.search);
       if (query.get("success")) {
-        
-        stripeApi.payment({sessionId: query.get(sessionId)})
+        // setMessage("Order placed! You will receive an email confirmation.");
+        orderApi.placeOrder({sessionId: query.get("sessionId")})
             .then(res => {
                 if(res.status === 200){
                     setMessage("Order placed! You will receive an email confirmation.");

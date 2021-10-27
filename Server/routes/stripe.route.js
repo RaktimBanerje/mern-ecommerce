@@ -8,7 +8,7 @@ router.use(customerAuthMiddleware.isLogin)
 
 router.post('/checkout', async (req, res) => {
 
-    if(!req.body.items || !Array.isArray(req.body.items) || req.body.items.length <= 0)
+    if(!req.body.items || !req.body.shippingDetails || !Array.isArray(req.body.items) || req.body.items.length <= 0)
         return res.status(400).send()
 
     let products = await Promise.all(req.body.items.map(async item => {
@@ -23,12 +23,10 @@ router.post('/checkout', async (req, res) => {
         }
     }))
         
-    const { status, error, redirecURL } = await stripeService.createCheckoutSeason(products)
+    const { status, error, redirecURL } = await stripeService.createCheckoutSeason(req.user, products, req.body.shippingDetails)
     
     if(error) res.status(status).json(error)
     else res.status(status).json({redirecURL})
 })
-
-
 
 module.exports = router

@@ -46,6 +46,12 @@ const Menu = () => {
                         <i className="fas fa-fw fa-table"></i>
                         <span>List Product</span></Link>
                 </li>
+
+                <li className="nav-item">
+                    <Link className="nav-link" to="/list-order">
+                        <i className="fas fa-fw fa-table"></i>
+                        <span>List Order</span></Link>
+                </li>
                 
                 <hr className="sidebar-divider d-none d-md-block" />
 

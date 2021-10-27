@@ -1,9 +1,13 @@
 const mongoose = require('mongoose')
 
 const orderSchema = mongoose.Schema({
-    customerId: { 
+    _id: {
         type: String,
         require: true
+    },
+    customer: { 
+        type: mongoose.Schema.ObjectId,
+        ref: 'Customer'
     },
 
     items: [
@@ -24,31 +28,38 @@ const orderSchema = mongoose.Schema({
     ], 
 
     total_amount: {
-        type: String,
+        type: Number,
         require: true
     },
 
-    shipping_address: {
-        pin: {
-            type: String,
+    shipping_details: {
+        name: {
+            type: String, 
             require: true
         },
-        address: {
-            type: String,
-            require: true
+        address: { 
+            type: String, 
+            require: true 
         },
-        locality: {
-            type: String,
-            require: true
+        zip: { 
+            type: String, 
+            require: true 
         },
-        city: {
-            type: String,
-            require: true
+
+        landmark: { 
+            type: String, 
+            require: true 
         },
-        state: {
+        city: { 
+            type: String, 
+            require: true 
+        },
+        phone: {
             type: String,
             require: true
         }
     }
 
-}, {timestamp: true})
+}, {timestamps: true})
+
+module.exports = mongoose.model('Order', orderSchema)

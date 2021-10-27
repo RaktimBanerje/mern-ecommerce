@@ -119,4 +119,17 @@ const remove = async (user, idx, cb) => {
     }
 }
 
-module.exports = { add, get, changeQuantity, remove }
+const destroy = async (userId) => {
+    try{
+        const result = await cartModel.findByIdAndDelete(userId)
+        
+        if(result) return { status: 200, error: false }
+        else return { status: 500, error: "Something went wrong" }
+
+    }catch(error){
+        console.log(error)
+        return { status: 500, error: error }
+    }
+}
+
+module.exports = { add, get, changeQuantity, remove, destroy }

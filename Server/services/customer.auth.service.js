@@ -4,6 +4,23 @@ const userSchema = require('../models/customer.user.model')
 const ineffectualTokenSchema = require('../models/ineffectualToken.model')
 const transporter = require('./email.service')
 
+const getUser = async (user) => {
+    try{
+        const retriveUser = await userSchema.findOne({email: user.email}, 'name email phone address')
+        return {
+            status: 200, 
+            error: false,
+            user: retriveUser
+        }
+    }
+    catch(error) {
+        return{
+            status: 500, 
+            error: error,
+            user: null
+        }
+    }
+}
 
 const login = async (user, cb)=>{
     try{
@@ -112,4 +129,4 @@ const forgotPassword = async (user, cb)=>{
         cb(500, error, {message: 'Server error'})
     }
 }
-module.exports = { login, register, isAuthenticate, logout, forgotPassword }
+module.exports = { login, register, isAuthenticate, logout, forgotPassword, getUser }

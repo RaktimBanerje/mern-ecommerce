@@ -1,7 +1,11 @@
-import React, { useEffect, useContext} from 'react'
+import React, { useEffect, useContext, useState } from 'react'
+import axios from 'axios'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
 import { UserContext } from '../../App'
 import cartApi from '../../services/api/cart.api'
-import stripeApi from '../../services/api/stripe.api' 
+import stripeApi from '../../services/api/stripe.api'
+import authApi from '../../services/api/auth.api'
 
 import TopHeader from '../inc/TopHeader'
 import HeaderBottom from '../inc/HeaderBottom'
@@ -12,26 +16,63 @@ import Middle from '../inc/Middle'
 import Footer from '../inc/Footer'
 import Copyright from '../inc/Copyright'
 import CartList from '../inc/CartList'
+import FieldControl from '../FormComponent/FieldControl'
 
-const Cart = () => {
-    
+const Cart = () => { 
     const { state, setState } = useContext(UserContext)
 
+    const [shippingDetails, setShippingDetails] = useState({
+        name: '', 
+        phone: '',
+        address_line: '',
+        zip: '',
+        landmark: '',
+        city: ''
+    })
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Required'),
+        phone: Yup.string().required('Required'),
+        address_line: Yup.string().required('Required'),
+        zip: Yup.string().required('Required'),
+        landmark: Yup.string().required('Required'),
+        city: Yup.string().required('Required'),
+    })
+
     useEffect(() => {
-        cartApi.get()
-            .then(res => res.status === 200 && setState({...state, cart: res.data}))
-            .catch(err => alert('Something went wrong'))
+
+        axios.all([cartApi.get(), authApi.getUser()])
+            .then(response => {
+                const cartResponse = response[0]
+                const userResponse = response[1]
+
+                if(cartResponse.status === 200) setState(state => ({...state, cart: cartResponse.data}))
+                else alert('Something went wrong')
+
+                if(userResponse.status === 200){
+                    setState(state => ({...state, user: userResponse.data}))
+                    setShippingDetails({
+                        name: userResponse.data.name,
+                        phone: userResponse.data.phone,
+                        address_line: userResponse.data.address.address_line,
+                        zip: userResponse.data.address.zip,
+                        landmark: userResponse.data.address.landmark,
+                        city: userResponse.data.address.city,
+                    })
+                }
+                else alert('Something went wrong')
+            })
     }, [])
     
 
-    const checkout = async () => {
-        const values = state.cart.map(item => ({
+    const checkout = async (shippingDetails) => {
+        const items = state.cart.map(item => ({
             productId: item.productId,
             qty: item.qty,
         }))
 
         try{
-            const res = await stripeApi.checkout({items: values})
+            const res = await stripeApi.checkout({items, shippingDetails})
 
             if(res.status === 200){
                 window.location = res.data.redirecURL
@@ -69,52 +110,31 @@ const Cart = () => {
                         (
                             <div className="checkout-left">
                                 <div className="address_form_agile mt-sm-5 mt-4">
-                                    <h4 className="mb-sm-4 mb-3">Add a new Details</h4>
-                                    <form action="https://demo.w3layouts.com/demos_new/template_demo/11-06-2021/electronics-mart-liberty-demo_Free/1081434887/web/payment.html" method="post" className="creditly-card-form agileinfo_form">
-                                        <div className="creditly-wrapper wthree, w3_agileits_wrapper">
-                                            <div className="information-wrapper">
-                                                <div className="first-row">
-                                                    <div className="controls form-group">
-                                                        <input className="billing-address-name form-control" type="text" name="name"
-                                                            placeholder="Full Name" required="" />
-                                                    </div>
-                                                    <div className="w3_agileits_card_number_grids">
-                                                        <div className="w3_agileits_card_number_grid_left form-group">
-                                                            <div className="controls">
-                                                                <input type="text" className="form-control" placeholder="Mobile Number"
-                                                                    name="number" required="" />
-                                                            </div>
-                                                        </div>
-                                                        <div className="w3_agileits_card_number_grid_right form-group">
-                                                            <div className="controls">
-                                                                <input type="text" className="form-control" placeholder="Landmark"
-                                                                    name="landmark" required="" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="controls form-group">
-                                                        <input type="text" className="form-control" placeholder="Town/City" name="city"
-                                                            required="" />
-                                                    </div>
-                                                    <div className="controls form-group">
-                                                        <select className="option-w3ls">
-                                                            <option>Select Address type</option>
-                                                            <option>Office</option>
-                                                            <option>Home</option>
-                                                            <option>Commercial</option>
-                
-                                                        </select>
+                                    <h4 className="mb-sm-4 mb-3">Shipping Details</h4>
+                                    <Formik
+                                        initialValues={shippingDetails}
+                                        validationSchema={validationSchema}
+                                        onSubmit={checkout}
+                                        enableReinitialize
+                                    >
+                                        <Form className="creditly-card-form agileinfo_form">
+                                            <div className="creditly-wrapper wthree, w3_agileits_wrapper">
+                                                <div className="information-wrapper">
+                                                    <div className="first-row">
+                                                        <FieldControl control="input" name="name" label="Name" />
+                                                        <FieldControl control="input" name="phone" label="Phone" />
+                                                        <FieldControl control="input" name="address_line" label="Address" />
+                                                        <FieldControl control="input" name="zip" label="ZIP" />
+                                                        <FieldControl control="input" name="landmark" label="Landmark" />
+                                                        <FieldControl control="input" name="city" label="City / Town" />
                                                     </div>
                                                 </div>
-                                                <button className="submit check_out btn">Delivery to this Address</button>
                                             </div>
-                                        </div>
-                                    </form>
-                                    <div className="checkout-right-basket">
-                                        <a onClick={() => checkout()}>Make a Payment
-                                            <span className="far fa-hand-point-right"></span>
-                                        </a>
-                                    </div>
+                                            <div className="checkout-right-basket">
+                                                <input type="submit" name="submit-btn" value="Place Order" className="btn btn-success" />
+                                            </div>
+                                        </Form>
+                                    </Formik>
                                 </div>
                             </div>
                         )    

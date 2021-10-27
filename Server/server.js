@@ -12,6 +12,7 @@ const productRoutes = require('./routes/product.route')
 const categoryRoutes = require('./routes/category.route')
 const cartRoutes = require('./routes/cart.route')
 const stripeRoutes = require('./routes/stripe.route')
+const orderRoutes = require('./routes/order.route')
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use('/api/category', categoryRoutes)
 app.use('/api/product', productRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/stripe', stripeRoutes)
+app.use('/api/order', orderRoutes)
 
 app.listen(8080, ()=>{
     console.log('App is running on PORT 8080');

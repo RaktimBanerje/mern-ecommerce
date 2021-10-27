@@ -13,6 +13,7 @@ import ListCategory from './Components/Pages/ListCategory'
 import AddProduct from './Components/Pages/AddProduct'
 import ListProduct from './Components/Pages/ListProduct'
 import EditProduct from './Components/Pages/EditProduct'
+import ListOrder from './Components/Pages/ListOrder'
 
 export const UserContext = React.createContext()
 
@@ -32,6 +33,7 @@ const App = ()=>{
     parentCategories: [],
     parentChildCategories: [],
     products: [],
+    orders: []
   })
 
   useEffect(()=>{
@@ -62,6 +64,7 @@ const App = ()=>{
           <PrivateRoute exact loggedIn={state.loggedIn} path="/add-product" component={ AddProduct } />
           <PrivateRoute exact loggedIn={state.loggedIn} path="/list-product" component={ ListProduct } />
           <PrivateRoute exact loggedIn={state.loggedIn} path="/edit-product" component={ EditProduct } />
+          <PrivateRoute exact loggedIn={state.loggedIn} path="/list-order" component={ ListOrder } />
 
           <Route exact path='/register' render={(props)=>
             state.loggedIn ? <Redirect to="/" /> : <Register {...props} /> } 
