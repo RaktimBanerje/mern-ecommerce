@@ -23,14 +23,13 @@ const Product = ({
             categoryId: event.target.categoryId.value,
         }
             
-        const res = await cartApi.add(item)
-
-        if(res.status === 200){
-            alert('New item is added to your cart')
+        try{
+            const res = await cartApi.add(item)
+            console.log(res.status)
+            if(res.status === 200) alert('New item is added to your cart') 
         }
-        else{
-            alert('Something went wrong')
-        }
+        catch(error){ alert('Something went wrong') }
+        
     }
 
     return (

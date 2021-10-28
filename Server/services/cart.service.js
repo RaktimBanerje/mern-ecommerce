@@ -29,6 +29,7 @@ const add = async (user, item, cb) => {
                 new: true
             }
         )
+        cb(200, false)
     }
     catch(error) {
         cb(500, error)
@@ -41,35 +42,34 @@ const get = async (user, cb) => {
     
     try{
         cart = await cartModel.findById(user.id)
+        
+        items = await Promise.all(cart.items.map(async item => {
+            try{
+                const product = await productModel.findById(item.productId, 'name sellingPrice photo')
+    
+                if(product)    
+                    return {
+                        productId: item.productId,
+                        qty: item.qty,
+                        name: product.name,
+                        sellingPrice: product.sellingPrice,
+                        photo: product.photo,
+                        price: product.sellingPrice
+                    } 
+                else
+                 return cb(500, 'Something went wrong')      
+            }
+            catch(error){
+                cb(500, error)
+                console.log(error)
+            }
+        }))    
+        cb(200, false, items)
     }
     catch(error) {
         cb(500, error)
         console.log(error)
     }
-
-    items = await Promise.all(cart.items.map(async item => {
-        try{
-            const product = await productModel.findById(item.productId, 'name sellingPrice photo')
-
-            if(product)    
-                return {
-                    productId: item.productId,
-                    qty: item.qty,
-                    name: product.name,
-                    sellingPrice: product.sellingPrice,
-                    photo: product.photo,
-                    price: item.qty * product.sellingPrice
-                } 
-            else
-             return cb(500, 'Something went wrong')      
-        }
-        catch(error){
-            cb(500, error)
-            console.log(error)
-        }
-    }))
-
-    cb(200, false, items)
 }
 
 const changeQuantity = async (user, productId, qty = 0, cb) => {
@@ -106,7 +106,6 @@ const remove = async (user, idx, cb) => {
     try{
         let result = await cartModel.findOne({_id: user.id})
         var itemsnew = result.items;
-        console.log(idx)
         itemsnew.splice(Number(idx),1);
         
         result = await cartModel.findOneAndUpdate({_id: user.id}, {$set: {'items': itemsnew}})

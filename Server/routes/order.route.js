@@ -7,7 +7,6 @@ const router = express.Router()
 
 router.get('/', adminAuthMiddleware.isLogin, async (req, res) => {
     const {status, error, orders} =  await orderService.get(req.query.orderId)
-    console.log(status, error, orders)
     if(error) return res.status(status).json(error)
     else return res.status(status).json(orders)
     
@@ -21,7 +20,7 @@ router.post('/place-order', customerAuthMiddleware.isLogin, async (req, res) => 
 
     try{
         const {status, error, order} = await orderService.placeOrder(checkoutSessionId)       
-        if(!error) await cartService.destroy(order.customerId) 
+        if(!error) await cartService.destroy(order.customer) 
         res.status(status).json()
         
     } catch(error){ 

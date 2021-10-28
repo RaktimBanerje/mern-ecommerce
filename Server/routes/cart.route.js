@@ -37,7 +37,7 @@ router.delete('/remove/:productId',  (req, res) => {
 router.post('/add', (req, res)=>{
     cartService.add(req.user, req.body, async (status, error)=>{
         if(error) return res.status(status).json(error)
-        else return res.status(status)
+        else return res.status(status).send()
     })
 })
 

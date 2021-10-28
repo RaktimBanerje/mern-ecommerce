@@ -95,15 +95,17 @@ const Cart = () => {
             <div className="privacy py-5">
                 <div className="container py-md-5 py-4">
                     <div className="checkout-right">
-                        <h4 className="mb-sm-4 mb-3">
-                            {
-                                state.cart.length > 0 ? 
-                                    `Your shopping cart contains: ${state.cart.length} Products`
-                                :
-                                    'Your shopping cart is empty'
-                            }                            
-                        </h4>
-                        { state.cart.length > 0 && <CartList cart={state.cart} /> }
+                        {
+                            state.cart.length > 0 ? 
+                                <React.Fragment>
+                                    <h4 className="mb-sm-4 mb-3">Your shopping cart contains: {state.cart.length} Products</h4>
+                                    <CartList cart={state.cart} />
+                                    <h4 className="mb-sm-4 mb-3 text-center">Total: INR { state.cart.reduce((total, {price, qty}) => (Number(price) * Number(qty)) + total, 0) }</h4>
+                                </React.Fragment>
+                                
+                            :
+                                <h4 className="mb-sm-4 mb-3">Your shopping cart is empty</h4>
+                        }                                                    
                     </div>
                     {
                         state.cart.length > 0 && 

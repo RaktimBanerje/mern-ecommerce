@@ -16,6 +16,10 @@ const orderSchema = mongoose.Schema({
                 type: String,
                 require: true
             },
+            name: {
+                type: String,
+                require: true
+            },
             unit_amount: {
                 type: Number,
                 require: true

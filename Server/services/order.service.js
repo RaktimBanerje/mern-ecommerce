@@ -19,6 +19,7 @@ const placeOrder = async (checkoutSessionId) => {
                 customer: session.client_reference_id,
 
                 items: await Promise.all(session.items.map(async item => {            
+                    console.log(item)
                     const data = await Promise.all(
                         [
                             stripeService.retriveProduct(item.price.product),
@@ -28,6 +29,7 @@ const placeOrder = async (checkoutSessionId) => {
                     return {
                         productId: data[0].metadata.productId,
                         unit_amount: data[1].unit_amount / 100,
+                        name: item.description,
                         qty: item.quantity
                     }
                 })),
@@ -41,12 +43,11 @@ const placeOrder = async (checkoutSessionId) => {
                     zip: session.metadata.shippingDetails.zip,
                     name: session.metadata.shippingDetails.name,
                     phone: session.metadata.shippingDetails.phone,
-                }
+                },
             }
 
             order = new orderModel(order)
             const newOrder = await order.save()
-            console.log(newOrder)
 
             return { status: 200, error: false, order: newOrder }
         }
@@ -60,7 +61,6 @@ const placeOrder = async (checkoutSessionId) => {
         }    
     }
 }
-
 
 const get = async(orderId) => {
     var orders = []
