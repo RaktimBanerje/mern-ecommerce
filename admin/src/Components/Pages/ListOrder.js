@@ -43,6 +43,7 @@ const ListOrder = () => {
 
                 var mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');                                            
                 mywindow.document.write(`<iframe width='100%' height='100%' src="${doc.output('datauristring')}" />`);
+                
                 mywindow.document.close(); // necessary for IE >= 10
             })
     }
@@ -51,6 +52,9 @@ const ListOrder = () => {
         orderApi.getAll()
             .then(res => res.status === 200 && setState({...state, orders: res.data}))
             .catch(error => alert('Something went wrong'))
+
+
+          
     }, [])
 
     return (

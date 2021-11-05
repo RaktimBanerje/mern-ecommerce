@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -9,7 +10,9 @@ axios.defaults.withCredentials = true
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

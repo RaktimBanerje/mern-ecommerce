@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom' 
+import { Switch, Route, Redirect } from 'react-router-dom' 
 import authApi from '../src/services/api/auth.api'
 
+import Loader from './components/inc/Loader'
 import Home from './components/pages/Home'
 import Cart from './components/pages/Cart'
 import Login from './components/pages/Login'
@@ -13,16 +14,26 @@ import PaymentSuccess from './components/pages/PaymentSuccess'
 export const UserContext = React.createContext()
 
 function PrivateRoute ({component: Component, loggedIn, ...rest}) {
-  return <Route {...rest} render={props => (
-              loggedIn ?  <Component {...props} />  : <Redirect to="/login" />
-          )} />
+  if(loggedIn === 'loading'){
+    return (
+      <Loader />
+    )
+  }
+
+  else if(loggedIn === true){
+    return <Route {...rest} render={props => <Component {...props} />} />
+  }
+
+  else {
+    return <Redirect to="/login" />
+  }
 } 
 
 const App = () => {  
   
   const [ state, setState ] = useState({
     user: {},
-    loggedIn: false,
+    loggedIn: 'loading',
     cart: [],
     products: []
   })
@@ -38,27 +49,33 @@ const App = () => {
   })
 
   return (
-    <BrowserRouter>
       <UserContext.Provider value={{state, setState}}>
-        <Switch>
-          
-          {/* Private Routes */}
-          <Route exact loggedIn={state.loggedIn} path="/cart" component={Cart} />
-          <Route exact loggedIn={state.loggedIn} path="/payment" component={PaymentSuccess} />
-      
-          <Route exact path="/" component={Home} />          
+          <Switch>
+          <Route exact path="/" component={Home} />   
           <Route exact path="/product-view" component={ProductView} />
+
+          <Route exact path="/cart" render={props => {
+            if(state.loggedIn === 'loading') return <Loader />
+            else if(state.loggedIn === true) return <Cart {...props} />
+            else return <Redirect to="/login" />                
+          }} />
+
+          <Route exact path="/payment" render={props => {
+            if(state.loggedIn === 'loading') return <Loader />
+            else if(state.loggedIn === true) return <PaymentSuccess {...props} />
+            else return <Redirect to="/login" />                
+          }} />
+                                          
           <Route exact path="/login" render={(props)=>
-            state.loggedIn ? <Redirect to="/" /> : <Login {...props} /> }
+            state.loggedIn === true ? <Redirect to="/" /> : <Login {...props} /> }
           />
           <Route exact path="/register" render={(props)=>
-            state.loggedIn ? <Redirect to="/" /> : <Register {...props} /> }
+            state.loggedIn === true ? <Redirect to="/" /> : <Register {...props} /> }
           />
-          <Route component={PageMissing} />
 
-        </Switch>
+          <Route component={PageMissing} />
+          </Switch>
       </UserContext.Provider>
-    </BrowserRouter>
   )
 }
 

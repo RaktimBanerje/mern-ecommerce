@@ -1,5 +1,4 @@
 import React, { useEffect, useContext} from 'react'
-import { Link } from 'react-router-dom'
 import { UserContext } from '../../App'
 import productApi from '../../services/api/product.api'
 
@@ -20,7 +19,7 @@ const Home = () => {
 
 	useEffect(() => {
 		productApi.getAll()
-			.then(res => res.status === 200 && setState({...state, products: res.data}))
+			.then(res => res.status === 200 && setState(state => ({...state, products: res.data})))
 			.catch(error => alert('Something went wrong'))
 	}, [])
 
