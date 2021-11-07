@@ -5,12 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8080/'
 axios.defaults.withCredentials = true
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/admin">
       <App />
     </BrowserRouter>
   </React.StrictMode>,

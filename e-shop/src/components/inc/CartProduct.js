@@ -48,7 +48,7 @@ const CartProduct = ({
             <td className="invert">{idx}</td>
             <td className="invert-image">
                 <Link to="/product-view">
-                    <img src={`http://localhost:8080/assets/product-image/${photo}`} alt={name} className="img-responsive" />
+                    <img src={`/assets/product-image/${photo}`} alt={name} className="img-responsive" />
                 </Link>
             </td>
             <td className="invert">

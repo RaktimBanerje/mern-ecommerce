@@ -27,8 +27,18 @@ app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/assets', express.static('public'))
 
+app.use('/assets', express.static('public'))
+app.use(express.static(path.join(__dirname, '../e-shop/build')))
+app.use('/admin', express.static(path.join(__dirname, '../admin/build')))
+
+app.get('/admin/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../admin/build'), 'index.html')
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../e-shop/build'), 'index.html')
+})
 
 app.use('/api/auth', authRoutes)
 app.use('/api/category', categoryRoutes)

@@ -36,7 +36,7 @@ const Product = ({
         <div className="col-md-4 product-men mt-md-0 mt-5">
             <div className="men-pro-item simpleCart_shelfItem">
                 <div className="men-thumb-item text-center">
-                    <img src={`http://localhost:8080/assets/product-image/${photo}`} alt={name} className="img-fluid" />
+                    <img src={`/assets/product-image/${photo}`} alt={name} className="img-fluid" />
                     <div className="men-cart-pro">
                         <div className="inner-men-cart-pro">
                             <a href="single.html" className="link-product-add-cart">Quick View</a>
